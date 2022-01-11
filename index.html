@@ -12,7 +12,13 @@
         import Popup from './js/popup.mjs';
 
         window.addEventListener('load',()=>{
-            new Popup();
+            new Popup({
+                name : 'today=done',
+                popup : '#popup',
+                btnView : '.view',
+                btnDel : '.del',
+                btnClose : '.close'
+            });
         })
     </script>
 </head>

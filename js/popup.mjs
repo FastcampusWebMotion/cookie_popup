@@ -1,29 +1,23 @@
 import Animate from './animate.mjs';
 
 export default class Popup {
-    constructor(){
-        this.init();
+    constructor(option){
+        this.init(option);
         this.bindingEvent();
     }
 
-    init(){
-        this.btnView = document.querySelector('.view');
-        this.btnDel = document.querySelector('.del');
-        this.popup = document.querySelector('#popup');
-        this.btnClose = this.popup.querySelector('.close');
+    init(option){        
+        this.btnView = document.querySelector(option.btnView);
+        this.btnDel = document.querySelector(option.btnDel);
+        this.popup = document.querySelector(option.popup);
+        this.btnClose = this.popup.querySelector(option.btnClose);
+        this.name = option.name;        
+        
         this.isOn;
-        this.isCookie = document.cookie.indexOf('today=done');  
+        this.isCookie = document.cookie.indexOf(this.name);  
         
         (this.isCookie === -1) ? this.isOn = 'block' : this.isOn = 'none';    
-        this.popup.style.display = this.isOn;
-        
-       /*
-       if(this.isCookie === -1){
-           this.popup.style.display = 'block';
-       }else {
-           this.popup.style.display = 'none';
-       }
-       */
+        this.popup.style.display = this.isOn;   
     }
 
     bindingEvent(){
@@ -34,14 +28,20 @@ export default class Popup {
         
         this.btnDel.addEventListener('click', e=>{
             e.preventDefault();
-            this.setCookie('today','done',0);
+            const [a,b] = this.name.split('=');
+            console.log(a);
+            console.log(b);
+            this.setCookie(a,b,0);
             alert('쿠키를 삭제했습니다.');
         })
         
         this.btnClose.addEventListener('click',e=>{
-            e.preventDefault();  
+            e.preventDefault(); 
+            const [a,b] = this.name.split('='); 
+            console.log(a);
+            console.log(b);
             let isChecked = this.popup.querySelector('input[type=checkbox]').checked;
-            if(isChecked) this.setCookie('today','done',1);
+            if(isChecked) this.setCookie(a,b,1);
             this.popup.style.display = 'none';
         })
     }
