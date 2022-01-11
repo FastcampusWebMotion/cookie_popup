@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="css/style.css">
     <script defer type='module' src="js/animate.mjs"></script>
     <script defer type='module' src="js/popup.mjs"></script>
+    <script type='module'>
+        import Popup from './js/popup.mjs';
+
+        window.addEventListener('load',()=>{
+            new Popup();
+        })
+    </script>
 </head>
 <body>
 

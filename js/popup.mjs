@@ -1,39 +1,61 @@
 import Animate from './animate.mjs';
 
-const isCookie = document.cookie.indexOf('today=done');
-console.log(isCookie);
+export default class Popup {
+    constructor(){
+        this.init();
+        this.bindingEvent();
+    }
 
-const btnView = document.querySelector('.view');
-const btnDel = document.querySelector('.del');
-const popup = document.querySelector('#popup');
-const btnClose = popup.querySelector('.close');
-let isOn;
+    init(){
+        this.btnView = document.querySelector('.view');
+        this.btnDel = document.querySelector('.del');
+        this.popup = document.querySelector('#popup');
+        this.btnClose = this.popup.querySelector('.close');
+        this.isOn;
+        this.isCookie = document.cookie.indexOf('today=done');  
+        
+        (this.isCookie === -1) ? this.isOn = 'block' : this.isOn = 'none';    
+        this.popup.style.display = this.isOn;
+        
+       /*
+       if(this.isCookie === -1){
+           this.popup.style.display = 'block';
+       }else {
+           this.popup.style.display = 'none';
+       }
+       */
+    }
 
-(isCookie === -1) ? isOn = 'block' : isOn = 'none';
-popup.style.dsiplay = isOn;
+    bindingEvent(){
+        this.btnView.addEventListener('click', e=>{
+            e.preventDefault();
+            console.log(document.cookie);
+        })
+        
+        this.btnDel.addEventListener('click', e=>{
+            e.preventDefault();
+            this.setCookie('today','done',0);
+            alert('쿠키를 삭제했습니다.');
+        })
+        
+        this.btnClose.addEventListener('click',e=>{
+            e.preventDefault();  
+            let isChecked = this.popup.querySelector('input[type=checkbox]').checked;
+            if(isChecked) this.setCookie('today','done',1);
+            this.popup.style.display = 'none';
+        })
+    }
 
-btnView.addEventListener('click', e=>{
-    e.preventDefault();
-    console.log(document.cookie);
-})
-
-btnDel.addEventListener('click', e=>{
-    e.preventDefault();
-    setCookie('today','done',0);
-    alert('쿠키를 삭제했습니다.');
-})
-
-btnClose.addEventListener('click',e=>{
-    e.preventDefault();  
-    let isChecked = popup.querySelector('input[type=checkbox]').checked;
-    if(isChecked) setCookie('today','done',1);
-    popup.style.display = 'none';
-})
-
-function setCookie(name, val, due){
-    const today = new Date();
-    const date = today.getDate();
-    today.setDate(date+due);
-    const duedate = today.toGMTString();
-    document.cookie = `${name}=${val}; path=/; expires=${duedate}`;
+    setCookie(name, val, due){
+        const today = new Date();
+        const date = today.getDate();
+        today.setDate(date+due);
+        const duedate = today.toGMTString();
+        document.cookie = `${name}=${val}; path=/; expires=${duedate}`;
+    }
 }
+
+
+
+
+
