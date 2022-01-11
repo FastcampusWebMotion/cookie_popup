@@ -1,9 +1,16 @@
 import Animate from './animate.mjs';
 
+const isCookie = document.cookie.indexOf('today=done');
+console.log(isCookie);
+
 const btnView = document.querySelector('.view');
 const btnDel = document.querySelector('.del');
 const popup = document.querySelector('#popup');
 const btnClose = popup.querySelector('.close');
+let isOn;
+
+(isCookie === -1) ? isOn = 'block' : isOn = 'none';
+popup.style.dsiplay = isOn;
 
 btnView.addEventListener('click', e=>{
     e.preventDefault();
@@ -17,7 +24,9 @@ btnDel.addEventListener('click', e=>{
 })
 
 btnClose.addEventListener('click',e=>{
-    e.preventDefault();    
+    e.preventDefault();  
+    let isChecked = popup.querySelector('input[type=checkbox]').checked;
+    if(isChecked) setCookie('today','done',1);
     popup.style.display = 'none';
 })
 
